@@ -1,0 +1,35 @@
+name: .NET4.6 Desktop
+
+on:
+  push:
+    branches: [ "dev" ]
+    tags:        
+      - '*'
+  pull_request:
+    branches: [ "dev" ]
+    tags:        
+      - '*'
+jobs:
+
+  Build:
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+
+    runs-on: windows-2019  # For a list of available runner types, refer to
+                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+
+    env:
+      apps: 'App.sln'
+      wrapPaths: 'WinFormApp'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Check inputs
+      run: |
+        echo github.ref is: ${{ github.ref }}
+        echo github.event_name is: ${{ github.event_name }}
